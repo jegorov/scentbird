@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: "scentbird"
+  profiles:
+    active: dev
+scentbird:
+  server-discovery:
+    address: "http://localhost:8090/discovery-service"

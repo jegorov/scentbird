@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: "scentbird-service-discovery"
+server:
+  port: 8090
+  servlet:
+    context-path: "/discovery-service"
