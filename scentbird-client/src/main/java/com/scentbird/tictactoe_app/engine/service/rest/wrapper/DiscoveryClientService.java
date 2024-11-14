@@ -1,6 +1,6 @@
-package com.scentbird.tictactoe_app.engine.service.impl;
+package com.scentbird.tictactoe_app.engine.service.rest.wrapper;
 
-import com.scentbird.tictactoe_app.engine.ResponseWrapper;
+import com.scentbird.tictactoe_app.engine.RestResponseWrapper;
 import com.scentbird.tictactoe_app.engine.web.dto.PlayerDto;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class DiscoveryClientServiceImpl {
+public class DiscoveryClientService {
 
   @Value("${scentbird.server-discovery.address}")
   private String serviceDiscoveryUrl;
 
-  private final ResponseWrapper responseWrapper;
+  private final RestResponseWrapper restResponseWrapper;
   private final ServletWebServerApplicationContext webServerAppContext;
 
 
-  public DiscoveryClientServiceImpl(ResponseWrapper responseWrapper,
+  public DiscoveryClientService(RestResponseWrapper restResponseWrapper,
       ServletWebServerApplicationContext webServerAppContext) {
-    this.responseWrapper = responseWrapper;
+    this.restResponseWrapper = restResponseWrapper;
     this.webServerAppContext = webServerAppContext;
   }
 
@@ -33,7 +33,7 @@ public class DiscoveryClientServiceImpl {
 
     ParameterizedTypeReference<List<String>> typeRef = new ParameterizedTypeReference<>() {
     };
-    return responseWrapper.getResponse(url, typeRef);
+    return restResponseWrapper.get(url, typeRef);
   }
 
   public Boolean registerUser(String userName) {
@@ -49,14 +49,14 @@ public class DiscoveryClientServiceImpl {
     }
     ParameterizedTypeReference<Boolean> typeRef = new ParameterizedTypeReference<>() {
     };
-    return responseWrapper.postResponse(url, typeRef, new PlayerDto(userName, ip, port));
+    return restResponseWrapper.post(url, typeRef, new PlayerDto(userName, ip, port));
   }
 
   public void unregisterUser(String userName) {
     String url = getUrl(String.format("/unregister?userName=%s", userName));
     ParameterizedTypeReference<HttpStatus> typeRef = new ParameterizedTypeReference<>() {
     };
-    responseWrapper.getResponse(url, typeRef);
+    restResponseWrapper.get(url, typeRef);
   }
 
   private String getUrl(String path) {

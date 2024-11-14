@@ -4,10 +4,9 @@ import org.springframework.stereotype.Component;
 
 
 //Since this was not a part of the main logic, i didn't work much on storing current user in a storage or maybe session.
-// So thats why this is just a component with some simple logic
+// So that's why this is just a component with some simple logic
 @Component
 public class UserInfoStore {
-
 
   private String userName = null;
 

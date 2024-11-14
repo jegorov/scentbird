@@ -1,6 +1,6 @@
 package com.scentbird.tictactoe_app.engine.service;
 
-import com.scentbird.tictactoe_app.engine.service.impl.TicTacToeServiceImpl;
+import com.scentbird.tictactoe_app.engine.service.rest.wrapper.TicTacToeService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,9 +9,9 @@ public class GameService {
   private boolean isGameRunning;
   private String gameId;
 
-  private final TicTacToeServiceImpl gameLogicService;
+  private final TicTacToeService gameLogicService;
 
-  public GameService(TicTacToeServiceImpl gameLogicService) {
+  public GameService(TicTacToeService gameLogicService) {
     this.gameLogicService = gameLogicService;
   }
 

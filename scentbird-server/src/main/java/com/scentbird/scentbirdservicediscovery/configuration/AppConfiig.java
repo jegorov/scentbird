@@ -1,4 +1,4 @@
-package com.scentbird.scentbirdservicediscovery.engine.configuration;
+package com.scentbird.scentbirdservicediscovery.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

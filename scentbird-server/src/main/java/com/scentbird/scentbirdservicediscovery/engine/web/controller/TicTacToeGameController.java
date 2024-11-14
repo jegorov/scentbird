@@ -1,8 +1,8 @@
-package com.scentbird.scentbirdservicediscovery.web.controller;
+package com.scentbird.scentbirdservicediscovery.engine.web.controller;
 
 import com.scentbird.scentbirdservicediscovery.engine.dto.TicTacToeGame;
-import com.scentbird.scentbirdservicediscovery.engine.service.ClientRequestImplService;
 import com.scentbird.scentbirdservicediscovery.engine.service.TicTacToeGameService;
+import com.scentbird.scentbirdservicediscovery.engine.service.rest.wrapper.ClientRequestService;
 import com.scentbird.scentbirdservicediscovery.web.dto.GameMoveDto;
 import com.scentbird.scentbirdservicediscovery.web.dto.PlayerDto;
 import org.springframework.http.HttpStatus;
@@ -20,10 +20,10 @@ public class TicTacToeGameController {
 
 
   private final TicTacToeGameService ticTacToeGameService;
-  private final ClientRequestImplService clientRequestService;
+  private final ClientRequestService clientRequestService;
 
   public TicTacToeGameController(TicTacToeGameService ticTacToeGameService,
-      ClientRequestImplService clientRequestService) {
+      ClientRequestService clientRequestService) {
     this.ticTacToeGameService = ticTacToeGameService;
     this.clientRequestService = clientRequestService;
   }

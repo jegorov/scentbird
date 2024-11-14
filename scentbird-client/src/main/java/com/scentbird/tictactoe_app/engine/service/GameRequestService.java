@@ -1,36 +1,25 @@
 package com.scentbird.tictactoe_app.engine.service;
 
-import com.scentbird.tictactoe_app.engine.service.impl.DiscoveryClientServiceImpl;
-import com.scentbird.tictactoe_app.engine.service.impl.TicTacToeServiceImpl;
+import com.scentbird.tictactoe_app.engine.service.rest.wrapper.DiscoveryClientService;
+import com.scentbird.tictactoe_app.engine.service.rest.wrapper.TicTacToeService;
 import com.scentbird.tictactoe_app.engine.storage.UserInfoStore;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PreGameActionService {
+public class GameRequestService {
 
-  private final DiscoveryClientServiceImpl discoveryService;
-  private final TicTacToeServiceImpl ticTacToeServiceImpl;
+  private final DiscoveryClientService discoveryService;
+  private final TicTacToeService ticTacToeService;
   private final UserInfoStore userInfoStore;
 
-  public PreGameActionService(UserInfoStore userInfoStore,
-      DiscoveryClientServiceImpl discoveryService,
-      TicTacToeServiceImpl ticTacToeServiceImpl) {
+  public GameRequestService(UserInfoStore userInfoStore,
+      DiscoveryClientService discoveryService,
+      TicTacToeService ticTacToeService) {
     this.discoveryService = discoveryService;
     this.userInfoStore = userInfoStore;
-    this.ticTacToeServiceImpl = ticTacToeServiceImpl;
-  }
-
-  public void register(String userName) {
-    if (userInfoStore.getUserName() != null) {
-      throw new RuntimeException("You are already registered!");
-    }
-    Boolean registered = discoveryService.registerUser(userName);
-    if (!registered) {
-      throw new RuntimeException("Please try again with another name");
-    }
-    userInfoStore.setUserName(userName);
+    this.ticTacToeService = ticTacToeService;
   }
 
   public Set<String> findPlayers() {
@@ -50,13 +39,13 @@ public class PreGameActionService {
     if (userInfoStore.getUserName() == null) {
       throw new RuntimeException("Please login first");
     }
-    ticTacToeServiceImpl.sendFoeGameRequest(foeUserName);
+    ticTacToeService.sendGameRequest(foeUserName);
   }
 
   public void acceptGameRequest(String foeUserName) {
     if (userInfoStore.getUserName() == null) {
       throw new RuntimeException("Please login first");
     }
-    ticTacToeServiceImpl.acceptGameRequest(foeUserName);
+    ticTacToeService.acceptGameRequest(foeUserName);
   }
 }

@@ -1,7 +1,6 @@
-package com.scentbird.tictactoe_app.engine.service.impl;
+package com.scentbird.tictactoe_app.engine.service.rest.wrapper;
 
-import com.scentbird.tictactoe_app.engine.ResponseWrapper;
-import com.scentbird.tictactoe_app.engine.storage.UserInfoStore;
+import com.scentbird.tictactoe_app.engine.RestResponseWrapper;
 import com.scentbird.tictactoe_app.engine.web.dto.GameMoveDto;
 import com.scentbird.tictactoe_app.engine.web.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,29 +10,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class TicTacToeServiceImpl {
+public class TicTacToeService {
 
   @Value("${scentbird.server-discovery.address}")
   private String serviceDiscoveryUrl;
 
 
-  private final ResponseWrapper responseWrapper;
-  private final DiscoveryClientServiceImpl discoveryService;
+  private final RestResponseWrapper restResponseWrapper;
 
 
-  public TicTacToeServiceImpl(ResponseWrapper responseWrapper,
-      UserInfoStore userInfoStore, DiscoveryClientServiceImpl discoveryService) {
-    this.responseWrapper = responseWrapper;
-    this.discoveryService = discoveryService;
+  public TicTacToeService(RestResponseWrapper restResponseWrapper) {
+    this.restResponseWrapper = restResponseWrapper;
   }
 
-  public boolean sendFoeGameRequest(String foeUserName) {
+  public void sendGameRequest(String foeUserName) {
     String url = getUrl("/game/request?foeName=" + foeUserName);
 
     ParameterizedTypeReference<HttpStatus> typeRef = new ParameterizedTypeReference<>() {
     };
-    HttpStatus httpStatus = responseWrapper.postResponse(url, typeRef, new PlayerDto(foeUserName));
-    return httpStatus.value() == 202;
+    restResponseWrapper.post(url, typeRef, new PlayerDto(foeUserName));
   }
 
   public void acceptGameRequest(String foeUserName) {
@@ -41,7 +36,7 @@ public class TicTacToeServiceImpl {
 
     ParameterizedTypeReference<HttpStatus> typeRef = new ParameterizedTypeReference<>() {
     };
-    responseWrapper.postResponse(url, typeRef, new PlayerDto(foeUserName));
+    restResponseWrapper.post(url, typeRef, new PlayerDto(foeUserName));
   }
 
   public String getCurrentBoard(String gameId) {
@@ -49,7 +44,7 @@ public class TicTacToeServiceImpl {
 
     ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<>() {
     };
-    return responseWrapper.getResponse(url, typeRef);
+    return restResponseWrapper.get(url, typeRef);
   }
 
   public void doMove(String gameId, Integer x, Integer y) {
@@ -57,7 +52,7 @@ public class TicTacToeServiceImpl {
 
     ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<>() {
     };
-    responseWrapper.postResponse(url, typeRef, new GameMoveDto(x, y));
+    restResponseWrapper.post(url, typeRef, new GameMoveDto(x, y));
   }
 
   private String getUrl(String path) {

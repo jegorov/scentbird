@@ -1,43 +1,48 @@
-package com.scentbird.scentbirdservicediscovery.engine.service;
+package com.scentbird.scentbirdservicediscovery.engine.service.rest.wrapper;
 
-import com.scentbird.scentbirdservicediscovery.engine.ResponseWrapper;
+import com.scentbird.scentbirdservicediscovery.engine.RestResponseWrapper;
+import com.scentbird.scentbirdservicediscovery.engine.service.ClientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 @Service
-public class ClientRequestImplService {
+public class ClientRequestService {
 
-  private final ResponseWrapper responseWrapper;
+  private static final Logger LOG = LoggerFactory.getLogger(ClientRequestService.class);
+  private final RestResponseWrapper restResponseWrapper;
   private final ClientService clientService;
 
-  public ClientRequestImplService(ResponseWrapper responseWrapper, ClientService clientService) {
-    this.responseWrapper = responseWrapper;
+  public ClientRequestService(RestResponseWrapper restResponseWrapper,
+      ClientService clientService) {
+    this.restResponseWrapper = restResponseWrapper;
     this.clientService = clientService;
   }
 
-  public boolean sendRequest(String clientName, String foeName) {
+  public boolean sendRequest(String userName, String foeName) {
     String url = clientService.getClientUrl(foeName);
     ParameterizedTypeReference<HttpStatus> typeRef = new ParameterizedTypeReference<>() {
     };
-    if (responseWrapper.getResponse(url + "/actions/invitation/user-name/" + clientName, typeRef)
-        .is2xxSuccessful()) {
-      return true;
-    }
-    return false;
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("userName", userName);
+    return restResponseWrapper.post(url + "/users/invite" + userName, typeRef, headers)
+        .is2xxSuccessful();
   }
 
   public boolean getPlayerStatus(String clientName) {
     String url = clientService.getClientUrl(clientName);
     ParameterizedTypeReference<HttpStatus> typeRef = new ParameterizedTypeReference<>() {
     };
-    HttpStatus status = responseWrapper.getResponse(url + "/actions/status", typeRef);
+    HttpStatus status = restResponseWrapper.get(url + "/users/status", typeRef);
     if (status == HttpStatus.OK) {
       return true;
     }
     if (status == HttpStatus.NOT_ACCEPTABLE) {
-      System.out.println("Player is already playing");
+      LOG.error("Player is already playing");
     }
     return false;
   }
@@ -46,8 +51,8 @@ public class ClientRequestImplService {
     String url = clientService.getClientUrl(clientName);
     ParameterizedTypeReference<HttpStatus> typeRef = new ParameterizedTypeReference<>() {
     };
-    HttpStatus status = responseWrapper.getResponse(
-        url + String.format("/actions/game/%s/notification/", gameId) + notification,
+    HttpStatus status = restResponseWrapper.get(
+        url + String.format("/game/%s/notification/", gameId) + notification,
         typeRef);
     return status == HttpStatus.OK;
   }
@@ -57,8 +62,9 @@ public class ClientRequestImplService {
     ParameterizedTypeReference<HttpStatus> typeRef = new ParameterizedTypeReference<>() {
     };
     try {
-      responseWrapper.postResponse(
-          url + String.format("/actions/game/%s/finish", gameId),
+
+      restResponseWrapper.post(
+          url + String.format("/game/%s/finish", gameId),
           typeRef);
     } catch (ResourceAccessException e) {
       // do nothing
