@@ -2,7 +2,7 @@ package com.scentbird.scentbirdservicediscovery.engine.web.controller;
 
 import com.scentbird.scentbirdservicediscovery.engine.dto.TicTacToeGame;
 import com.scentbird.scentbirdservicediscovery.engine.service.TicTacToeGameService;
-import com.scentbird.scentbirdservicediscovery.engine.service.rest.wrapper.ClientRequestService;
+import com.scentbird.scentbirdservicediscovery.engine.service.rest.request_wrapper.ClientRequestService;
 import com.scentbird.scentbirdservicediscovery.web.dto.GameMoveDto;
 import com.scentbird.scentbirdservicediscovery.web.dto.PlayerDto;
 import org.springframework.http.HttpStatus;

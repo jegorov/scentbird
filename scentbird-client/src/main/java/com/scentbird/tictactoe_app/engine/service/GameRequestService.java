@@ -1,7 +1,7 @@
 package com.scentbird.tictactoe_app.engine.service;
 
-import com.scentbird.tictactoe_app.engine.service.rest.wrapper.DiscoveryClientService;
-import com.scentbird.tictactoe_app.engine.service.rest.wrapper.TicTacToeService;
+import com.scentbird.tictactoe_app.engine.service.rest.request_wrapper.DiscoveryClientRequestService;
+import com.scentbird.tictactoe_app.engine.service.rest.request_wrapper.TicTacToeRequestService;
 import com.scentbird.tictactoe_app.engine.storage.UserInfoStore;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameRequestService {
 
-  private final DiscoveryClientService discoveryService;
-  private final TicTacToeService ticTacToeService;
+  private final DiscoveryClientRequestService discoveryService;
+  private final TicTacToeRequestService ticTacToeRequestService;
   private final UserInfoStore userInfoStore;
 
   public GameRequestService(UserInfoStore userInfoStore,
-      DiscoveryClientService discoveryService,
-      TicTacToeService ticTacToeService) {
+      DiscoveryClientRequestService discoveryService,
+      TicTacToeRequestService ticTacToeRequestService) {
     this.discoveryService = discoveryService;
     this.userInfoStore = userInfoStore;
-    this.ticTacToeService = ticTacToeService;
+    this.ticTacToeRequestService = ticTacToeRequestService;
   }
 
   public Set<String> findPlayers() {
@@ -39,13 +39,13 @@ public class GameRequestService {
     if (userInfoStore.getUserName() == null) {
       throw new RuntimeException("Please login first");
     }
-    ticTacToeService.sendGameRequest(foeUserName);
+    ticTacToeRequestService.sendGameRequest(foeUserName);
   }
 
   public void acceptGameRequest(String foeUserName) {
     if (userInfoStore.getUserName() == null) {
       throw new RuntimeException("Please login first");
     }
-    ticTacToeService.acceptGameRequest(foeUserName);
+    ticTacToeRequestService.acceptGameRequest(foeUserName);
   }
 }

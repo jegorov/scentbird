@@ -1,4 +1,4 @@
-package com.scentbird.scentbirdservicediscovery.engine.service.rest.wrapper;
+package com.scentbird.scentbirdservicediscovery.engine.service.rest.request_wrapper;
 
 import com.scentbird.scentbirdservicediscovery.engine.RestResponseWrapper;
 import com.scentbird.scentbirdservicediscovery.engine.service.ClientService;

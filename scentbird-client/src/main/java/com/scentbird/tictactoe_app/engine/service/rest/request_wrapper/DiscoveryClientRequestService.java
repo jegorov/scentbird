@@ -1,4 +1,4 @@
-package com.scentbird.tictactoe_app.engine.service.rest.wrapper;
+package com.scentbird.tictactoe_app.engine.service.rest.request_wrapper;
 
 import com.scentbird.tictactoe_app.engine.RestResponseWrapper;
 import com.scentbird.tictactoe_app.engine.web.dto.PlayerDto;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class DiscoveryClientService {
+public class DiscoveryClientRequestService {
 
   @Value("${scentbird.server-discovery.address}")
   private String serviceDiscoveryUrl;
@@ -22,7 +22,7 @@ public class DiscoveryClientService {
   private final ServletWebServerApplicationContext webServerAppContext;
 
 
-  public DiscoveryClientService(RestResponseWrapper restResponseWrapper,
+  public DiscoveryClientRequestService(RestResponseWrapper restResponseWrapper,
       ServletWebServerApplicationContext webServerAppContext) {
     this.restResponseWrapper = restResponseWrapper;
     this.webServerAppContext = webServerAppContext;

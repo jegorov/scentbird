@@ -1,6 +1,6 @@
 package com.scentbird.tictactoe_app.engine.service;
 
-import com.scentbird.tictactoe_app.engine.service.rest.wrapper.DiscoveryClientService;
+import com.scentbird.tictactoe_app.engine.service.rest.request_wrapper.DiscoveryClientRequestService;
 import com.scentbird.tictactoe_app.engine.storage.UserInfoStore;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 public class RegisterService {
 
 
-  private final DiscoveryClientService discoveryService;
+  private final DiscoveryClientRequestService discoveryService;
   private final UserInfoStore userInfoStore;
 
   public RegisterService(UserInfoStore userInfoStore,
-      DiscoveryClientService discoveryService) {
+      DiscoveryClientRequestService discoveryService) {
     this.discoveryService = discoveryService;
     this.userInfoStore = userInfoStore;
   }

@@ -1,7 +1,7 @@
 package com.scentbird.tictactoe_app;
 
 import com.scentbird.tictactoe_app.engine.service.ConsoleInputCommandsService;
-import com.scentbird.tictactoe_app.engine.service.rest.wrapper.DiscoveryClientService;
+import com.scentbird.tictactoe_app.engine.service.rest.request_wrapper.DiscoveryClientRequestService;
 import com.scentbird.tictactoe_app.engine.storage.UserInfoStore;
 import jakarta.annotation.PreDestroy;
 import org.springframework.boot.CommandLineRunner;
@@ -11,11 +11,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ScentbirdApplication implements CommandLineRunner {
 
-  private final DiscoveryClientService discoveryService;
+  private final DiscoveryClientRequestService discoveryService;
   private final UserInfoStore userInfoStore;
   private final ConsoleInputCommandsService consoleInputCommandsService;
 
-  public ScentbirdApplication(UserInfoStore userInfoStore, DiscoveryClientService discoveryService,
+  public ScentbirdApplication(UserInfoStore userInfoStore, DiscoveryClientRequestService discoveryService,
       ConsoleInputCommandsService consoleInputCommandsService) {
     this.discoveryService = discoveryService;
     this.userInfoStore = userInfoStore;
